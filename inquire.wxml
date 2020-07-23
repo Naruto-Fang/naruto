@@ -1,0 +1,111 @@
+<view class="bg">
+<view class="box_4">{{name}},你好</view>
+<view class="box_4">请选择以下的查询方式：</view>
+<button bindtap="inquire_college" class="box_5" style="width:60%">按学院查询</button>
+<button bindtap="inquire_class" class="box_6" style="width:60%">按班级查询</button>
+<button bindtap="inquire_username" class="box_6" style="width:60%">按学号查询</button>
+<!-- 按照学院查询得到的表 -->
+<view class="table" hidden="{{college_list[0].username != undefined ? false : true}}">
+   <view class="tr th">
+      <view class="td"> 学院 </view>
+      <view class="td"> 学号 </view> 
+      <view class="td"> 姓名 </view>
+      <view class="td"> 操作 </view>
+   </view>
+   <view class="tr" wx:for="{{college_list}}" hidden="{{college_list[0].username != undefined ? false : true}}" >
+      <view class="td" hidden="{{item.username != undefined ? false : true}}"> {{item.college}} </view>
+      <view class="td" hidden="{{item.username != undefined ? false : true}}"> {{item.username}}  </view>
+      <view class="td" hidden="{{item.username != undefined ? false : true}}"> {{item.name}}</view> 
+      <view class="td" hidden="{{item.username != undefined ? false : true}}">  
+        <button 
+        size="mini" 
+        data-username_1="{{item.username}}"
+        bindtap="look" >查看签到</button>
+      </view>
+  </view>
+</view>
+<!-- 按照班级查询得到的表 -->
+<view class="table" hidden="{{class_list[0].username != undefined ? false : true}}">
+   <view class="tr th">
+      <view class="td"> 学院 </view>
+      <view class="td"> 班级 </view>
+      <view class="td"> 学号 </view> 
+      <view class="td"> 姓名 </view>
+      <view class="td"> 操作 </view>
+   </view>
+   <view class="tr" wx:for="{{class_list}}" hidden="{{class_list[0].username != undefined ? false : true}}" >
+      <view class="td" hidden="{{item.username != undefined ? false : true}}"> {{item.college}} </view>
+      <view class="td" hidden="{{item.username != undefined ? false : true}}"> {{item.class}} </view>
+      <view class="td" hidden="{{item.username != undefined ? false : true}}"> {{item.username}}  </view>
+      <view class="td" hidden="{{item.username != undefined ? false : true}}"> {{item.name}}</view> 
+      <view class="td" hidden="{{item.username != undefined ? false : true}}">  
+        <button 
+        size="mini" 
+        data-username_2="{{item.username}}"
+        bindtap="look_1" >查看</button>
+      </view>
+  </view>
+</view>
+</view>
+
+<!-- 弹窗 -->
+<view class="mask" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+<view class="modalDlg" wx:if="{{showModal}}">
+ <text class="box_2">{{name}},欢迎查询~</text>
+<!-- 学号查询 -->
+ <view hidden="{{index==3? false : true}}" class="box_8">请输入您想查找的学号：</view>
+ <input bindinput="getvalue" class="box_1"
+ data-set="username"
+ value="{{username}}"
+ placeholder="请输入要查找的学号"
+ hidden="{{index==3? false : true}}"
+ ></input>
+<!-- 学院查询 -->
+ <view hidden="{{index==1? false : true}}" class="box_8">
+ <picker 
+  bindchange="getcollege" 
+  value="{{in_1}}" 
+  range-key="college"  
+  range="{{college}}">
+    <view class="box_7">
+     所属学院：{{college[in_1].college}}
+    </view>
+</picker>
+</view>
+<!-- 班级查询 -->
+<view hidden="{{index==2? false : true}}" class="box_8">
+<picker 
+  bindchange="getcollege_1" 
+  value="{{in_2}}" 
+  range-key="college"  
+  range="{{college}}">
+    <view class="box_7">
+      所属学院：{{college[in_2].college}}
+    </view>
+</picker>
+<picker 
+  bindchange="getGrade" 
+  value="{{in_4}}" 
+  range-key="grade"  
+  range="{{grade}}">
+    <view class="box_7">
+      所属年级：{{grade[in_4].grade}}
+    </view>
+</picker>
+<picker 
+  bindchange="getclass" 
+  value="{{in_3}}" 
+  range-key="class"  
+  range="{{college[in_2].class}}">
+    <view class="box_7"> 
+      所属班级：{{college[in_2].class[in_3].class}}({{grade[in_4].grade}})
+    </view>
+</picker>
+</view>
+
+ <view class="box_3">
+ <button bindtap="back">返回</button>
+ <button bindtap="go">确定</button>
+ </view>
+</view>
+
